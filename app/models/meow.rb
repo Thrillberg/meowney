@@ -1,0 +1,3 @@
+class Meow < ApplicationRecord
+
+end
