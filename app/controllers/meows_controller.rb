@@ -13,6 +13,10 @@ class MeowsController < ApplicationController
   def create
     @meow = Meow.new(params.require(:meow).permit(:body))
     if @meow.save
+      Stripe::Charge.create({
+        amount: 500,
+        currency: 'usd',
+      })
       redirect_to root_path
     else
       render :new
