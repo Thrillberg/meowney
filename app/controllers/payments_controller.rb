@@ -15,12 +15,6 @@ class PaymentsController < ApplicationController
 
     current_user.update(stripe_customer_id: customer.id)
 
-    Stripe::Charge.create({
-      amount: 500,
-      currency: 'usd',
-      customer: customer.id,
-    })
-
     redirect_to new_meow_path
   end
 end
