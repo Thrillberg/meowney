@@ -1,4 +1,6 @@
 class MeowsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @meows = Meow.all
   end
@@ -7,6 +9,8 @@ class MeowsController < ApplicationController
   end
 
   def new
+    redirect_to new_payment_path unless current_user.stripe_customer_id
+
     @meow = Meow.new
   end
 
@@ -16,6 +20,7 @@ class MeowsController < ApplicationController
       Stripe::Charge.create({
         amount: 500,
         currency: 'usd',
+        customer: current_user.stripe_customer_id,
       })
       redirect_to root_path
     else
