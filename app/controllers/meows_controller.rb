@@ -12,13 +12,14 @@ class MeowsController < ApplicationController
     redirect_to new_payment_path unless current_user.stripe_customer_id
 
     @meow = Meow.new
+    render layout: "meow"
   end
 
   def create
-    @meow = Meow.new(params.require(:meow).permit(:body))
+    @meow = Meow.new(params.require(:meow).permit(:body, :cost))
     if @meow.save
       Stripe::Charge.create({
-        amount: 500,
+        amount: @meow.cost + 50,
         currency: 'usd',
         customer: current_user.stripe_customer_id,
       })

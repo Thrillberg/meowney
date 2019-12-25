@@ -1,6 +1,5 @@
-= form_with model: @meow do |meow_form|
-  %h3
-    Body
-    = meow_form.text_area :body, size: "60x12"
-  $5
-  = meow_form.submit "Meow!"
+= form_with model: @meow, local: true do |meow_form|
+  .form-group
+    = meow_form.text_area :body, class: "form-control", id: "meow_text"
+  = meow_form.hidden_field :cost
+  = meow_form.submit "Meow!", class: "btn btn-primary"
